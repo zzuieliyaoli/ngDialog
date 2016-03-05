@@ -506,7 +506,9 @@
                             }
 
                             var hasOverlayClass = options.overlay ? '' : ' ngdialog-no-overlay';
+                            // create dialog container
                             $dialog = $el('<div id="'+dialogID + '" class="ngdialog' + hasOverlayClass + '"></div>');
+                            // append child
                             $dialog.html((options.overlay ?
                                 '<div class="ngdialog-overlay"></div><div class="ngdialog-content" role="document">' + template + '</div>' :
                                 '<div class="ngdialog-content" role="document">' + template + '</div>'));
@@ -595,6 +597,7 @@
                                 var $activeDialogs = document.querySelectorAll('.ngdialog');
                                 privateMethods.deactivateAll($activeDialogs);
 
+                                //
                                 $compile($dialog)(scope);
                                 var widthDiffs = $window.innerWidth - $elements.body.prop('clientWidth');
                                 $elements.html.addClass(options.bodyClassName);
@@ -603,6 +606,8 @@
                                 if (scrollBarWidth > 0) {
                                     privateMethods.setBodyPadding(scrollBarWidth);
                                 }
+
+                                // append the dialog to html page
                                 $dialogParent.append($dialog);
 
                                 privateMethods.activate($dialog);
@@ -610,7 +615,7 @@
                                 if (options.trapFocus) {
                                     privateMethods.autoFocus($dialog);
                                 }
-
+                                // trigger event
                                 if (options.name) {
                                     $rootScope.$broadcast('ngDialog.opened', {dialog: $dialog, name: options.name});
                                 } else {
@@ -718,7 +723,7 @@
                             var $dialog = $el(document.getElementById(openResult.id));
                             privateMethods.performCloseDialog($dialog, value);
                         };
-
+                        // 开始open
                         var openResult = publicMethods.open(options);
                         if (openResult) {
                             openResult.closePromise.then(function (data) {
